@@ -66,7 +66,7 @@
 </style>
 
 <div>
-  <h1>Do you want to bet?</h1>
+  <h1>Discover the emotion of clickin on no sense data</h1>
   {#if chosenMatch.gameId}
     <h3>Match: {homeTeam} VS {visitorTeam}</h3>
   {:else}
