@@ -1,5 +1,6 @@
 <script>
   import * as Localstorage from "../services/Localstorage";
+  import Match from './Match.svelte'
 
   let matches = Localstorage.getMatches();
   let filterInput = "";
@@ -37,11 +38,10 @@
   {/if}
   <input type="text" bind:value={filterInput} />
   {#each matches as match}
-    <li
-      class={match.gameId === choosenMatch.gameId && 'active'}
-      id={match.gameId}
-      on:click={hadleClick}>
-       {match.gameId}
-    </li>
+    <Match
+      match={match}
+      choosenMatch={choosenMatch}
+      hadleClick={hadleClick}
+     />
   {/each}
 </div>
