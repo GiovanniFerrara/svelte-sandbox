@@ -1,6 +1,6 @@
 <script>
  export let match
- export let choosenMatch
+ export let chosenMatch
  export let hadleClick
 </script>
 
@@ -14,8 +14,8 @@
 </style>
 
 <li
-  class={match.gameId === choosenMatch.gameId && 'active'}
+  class={match.gameId === chosenMatch.gameId && 'active'}
   id={match.gameId}
   on:click={hadleClick}>
-   {match.gameId}
+   {match.homeTeam.abbreviation} - {match.visitorTeam.abbreviation}
 </li>

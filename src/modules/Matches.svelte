@@ -2,13 +2,25 @@
   import * as Localstorage from "../services/Localstorage";
   import Match from './Match.svelte'
 
+  const filterTeam = (match, filterValue)=>{
+    filterValue=filterValue.toLowerCase()
+    const inHomeTeam = match.homeTeam.fullname.toLowerCase().includes(filterValue)
+    const inVisitorTeam = match.visitorTeam.fullname.toLowerCase().includes(filterValue)
+    return inHomeTeam || inVisitorTeam
+  }
+
   let matches = Localstorage.getMatches();
   let filterInput = "";
-  let choosenMatch = {};
+  $: filteredMatches = matches.filter((match)=> filterTeam(match,filterInput))
+  let chosenMatch = {};
+  let homeTeam
+  let visitorTeam
 
   const hadleClick = e => {
-    const choosenMatchId = e.target.id;
-    choosenMatch = matches.find(m => m.gameId === choosenMatchId);
+    const chosenMatchId = e.target.id;
+    chosenMatch = matches.find(m => m.gameId === chosenMatchId);
+    homeTeam = chosenMatch.homeTeam.fullname
+    visitorTeam = chosenMatch.visitorTeam.fullname
   };
   if (matches.length === 0) {
     fetch("https://match-mock-api.herokuapp.com/api/match")
@@ -30,17 +42,17 @@
 </style>
 
 <div>
-  <h1>All the matches</h1>
-  {#if choosenMatch.gameId}
-    <h3>Choosen match: {choosenMatch.gameId}</h3>
+  <h1>All the matches {console.log(filteredMatches)}</h1>
+  {#if chosenMatch.gameId}
+    <h3>chosen match: {homeTeam} VS {visitorTeam}</h3>
   {:else}
-    <h3>NO choosen match</h3>
+    <h3>NO chosen match</h3>
   {/if}
   <input type="text" bind:value={filterInput} />
-  {#each matches as match}
+  {#each filteredMatches as match}
     <Match
       match={match}
-      choosenMatch={choosenMatch}
+      chosenMatch={chosenMatch}
       hadleClick={hadleClick}
      />
   {/each}
