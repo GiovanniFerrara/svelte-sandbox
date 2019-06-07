@@ -1,0 +1,1 @@
+export const get=()=> fetch("https://match-mock-api.herokuapp.com/api/match").then(data => data.json())
